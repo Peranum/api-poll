@@ -1,0 +1,149 @@
+upbit_client:
+  upbit_announcements_url: "https://api-manager.upbit.com/api/v1/announcements?os=web&page=1&per_page=1&category=all"
+  max_retries: 3
+  retry_delay: "100ms"
+  retry_delay_multiplier: 1.1
+  metrics_check_period: "10m"
+
+telegram:
+  bot_id: "YOUR_BOT_ID"
+  authorization_token: "YOUR_AUTHORIZATION_TOKEN"
+  group_id: -1002513031405
+
+logger:
+  level: "info"
+  format: "json"
+  add_source: false
+
+grpc:
+  address: "localhost:49999"
+  dial_timeout: "5s"
+  call_timeout: "10s"
+
+api_poller:
+  target_rps: 20
+  single_proxy_max_rps: 0.2
+  work_schedule:
+    time_zone: "Asia/Seoul"
+    schedule:
+      monday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      tuesday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      wednesday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      thursday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      friday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+  proxies:
+    - { host: "108.165.87.11", port: 6474, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.150", port: 5614, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.180.23", port: 5986, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.59.11.76", port: 6146, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "206.232.74.181", port: 7251, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.27.127.151", port: 7116, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.180.30", port: 5993, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "166.88.149.179", port: 6643, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "142.111.67.128", port: 5593, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.47.183", port: 6649, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "142.111.67.120", port: 5585, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.91", port: 5711, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "168.199.166.109", port: 6641, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "45.114.15.28", port: 6009, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "192.95.91.101", port: 5728, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.53.222", port: 6188, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.53.27", port: 5993, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.53.78", port: 6044, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "168.199.166.42", port: 6574, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.59.11.216", port: 6286, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "206.232.74.178", port: 7248, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.42.98", port: 5887, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.39.22", port: 5310, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.44", port: 5508, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "46.203.52.24", port: 5547, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.80", port: 5700, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.47.153", port: 6619, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "166.88.149.236", port: 6700, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "142.111.67.113", port: 5578, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.3.139", port: 6103, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.208", port: 5672, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "142.111.67.53", port: 5518, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.38.236", port: 6024, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "168.199.166.141", port: 6673, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.39.193", port: 5481, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.3.239", port: 6203, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.57.90.93", port: 5662, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.235", port: 5699, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.38.250", port: 6038, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.83.214", port: 7177, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.65", port: 5685, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.83.110", port: 7073, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.87.162", port: 6625, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.142", port: 5762, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.43.4", port: 5293, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.27.127.165", port: 7130, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "45.114.15.162", port: 6143, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.3.117", port: 6081, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.38.93", port: 5881, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.53.70", port: 6036, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "142.111.67.14", port: 5479, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "142.111.67.197", port: 5662, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.180.199", port: 6162, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.39.101", port: 5389, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.111", port: 5731, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.39.254", port: 5542, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.43.126", port: 5415, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.47.5", port: 6471, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.27.243.154", port: 6619, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.42.249", port: 6038, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.126.136", port: 6744, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.47.10", port: 6476, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.3.111", port: 6075, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.38.58", port: 5846, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "166.88.149.180", port: 6644, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.55", port: 5519, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.27.243.70", port: 6535, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.126.48", port: 6656, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.57.90.59", port: 5628, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.225", port: 5689, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.60", port: 5680, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.83.91", port: 7054, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.42.162", port: 5951, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.57.90.80", port: 5649, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "166.88.149.34", port: 6498, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.47.28", port: 6494, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.92.191", port: 5655, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.42.184", port: 5973, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.38.135", port: 5923, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "45.114.15.45", port: 6026, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.59.11.223", port: 6293, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.47.15", port: 6481, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.53.53", port: 6019, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "168.199.166.74", port: 6606, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "168.199.166.6", port: 6538, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.83.29", port: 6992, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "45.114.15.229", port: 6210, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.59.11.118", port: 6188, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "166.88.149.43", port: 6507, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "154.203.42.174", port: 5963, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.26.53.73", port: 6039, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "31.57.90.192", port: 5761, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.27.127.147", port: 7112, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "166.88.149.69", port: 6533, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.90.17", port: 5637, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "192.95.91.180", port: 5807, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "64.137.126.240", port: 6848, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "108.165.83.151", port: 7114, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "23.27.127.33", port: 6998, username: "adameths", password: "5h2cojhuvb5x" }
+    - { host: "50.114.3.160", port: 6124, username: "adameths", password: "5h2cojhuvb5x" }

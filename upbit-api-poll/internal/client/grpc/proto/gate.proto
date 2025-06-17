@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package gate;
+
+option go_package = "internal/client/grpc/proto";
+
+service GateService {
+  rpc OpenOrder(OpenOrderRequest) returns (OpenOrderResponse) {}
+}
+
+message OpenOrderRequest {
+  string ticker = 1;  
+}
+
+message OpenOrderResponse {
+  bool success = 1;    
+  string error = 2;
+} 
