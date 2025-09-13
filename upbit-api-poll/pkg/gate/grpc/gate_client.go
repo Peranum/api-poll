@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/client/grpc/proto"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/config"
+	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/pkg/gate/grpc/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

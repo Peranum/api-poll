@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	gategrpc "github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/client/grpc"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/entity"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/service"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/tickers"
@@ -13,9 +12,8 @@ import (
 )
 
 type NewsMonitor struct {
-	gateClient *gategrpc.GateClient
-	newsChan   <-chan entity.NewsTitle
-	metrics    service.MetricsService
+	newsChan <-chan entity.NewsTitle
+	metrics  *service.PrometheusService
 }
 
 var koreanListingPatterns = []string{
@@ -34,14 +32,12 @@ func containsKoreanListingPattern(news string) bool {
 }
 
 func NewNewsMonitor(
-	gateClient *gategrpc.GateClient,
 	newsChan <-chan entity.NewsTitle,
-	metrics service.MetricsService,
+	metrics *service.PrometheusService,
 ) *NewsMonitor {
 	return &NewsMonitor{
-		gateClient: gateClient,
-		newsChan:   newsChan,
-		metrics:    metrics,
+		newsChan: newsChan,
+		metrics:  metrics,
 	}
 }
 
@@ -59,7 +55,7 @@ func (m *NewsMonitor) StartMonitoring(ctx context.Context) {
 				fmt.Printf("!!! FOUND LISTING NEWS: %s !!!\n", news)
 
 				extractedTickers := tickers.ExtractKoreanTickers(news)
-				if len(extractedTickers) > 0 && m.gateClient != nil {
+				if len(extractedTickers) > 0 {
 					ticker := extractedTickers[0]
 					go func(ticker string) {
 						_, err := gate.OpenFuturesOrder(m.metrics, ticker, 10.0, "20")

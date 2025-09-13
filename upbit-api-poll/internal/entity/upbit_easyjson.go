@@ -7,7 +7,6 @@ import (
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
-	time "time"
 )
 
 // suppress unused package warning
@@ -18,91 +17,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(in *jlexer.Lexer, out *News) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeFieldName(false)
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "News":
-			out.Title = string(in.String())
-		case "ListedAt":
-			if data := in.Raw(); in.Ok() {
-				in.AddError((out.ListedAt).UnmarshalJSON(data))
-			}
-		case "FirstListedAt":
-			if data := in.Raw(); in.Ok() {
-				in.AddError((out.FirstListedAt).UnmarshalJSON(data))
-			}
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(out *jwriter.Writer, in News) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	{
-		const prefix string = ",\"News\":"
-		out.RawString(prefix[1:])
-		out.String(string(in.Title))
-	}
-	{
-		const prefix string = ",\"ListedAt\":"
-		out.RawString(prefix)
-		out.Raw((in.ListedAt).MarshalJSON())
-	}
-	{
-		const prefix string = ",\"FirstListedAt\":"
-		out.RawString(prefix)
-		out.Raw((in.FirstListedAt).MarshalJSON())
-	}
-	out.RawByte('}')
-}
-
-// MarshalJSON supports json.Marshaler interface
-func (v News) MarshalJSON() ([]byte, error) {
-	w := jwriter.Writer{}
-	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(&w, v)
-	return w.Buffer.BuildBytes(), w.Error
-}
-
-// MarshalEasyJSON supports easyjson.Marshaler interface
-func (v News) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(w, v)
-}
-
-// UnmarshalJSON supports json.Unmarshaler interface
-func (v *News) UnmarshalJSON(data []byte) error {
-	r := jlexer.Lexer{Data: data}
-	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(&r, v)
-	return r.Error()
-}
-
-// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *News) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(l, v)
-}
-func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(in *jlexer.Lexer, out *Announcements) {
+func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(in *jlexer.Lexer, out *SingleAnnouncement) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -123,6 +38,195 @@ func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiP
 		switch key {
 		case "success":
 			out.Success = bool(in.Bool())
+		case "error_code":
+			out.ErrorCode = int(in.Int())
+		case "error_message":
+			out.ErrorMessage = string(in.String())
+		case "data":
+			(out.Data).UnmarshalEasyJSON(in)
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(out *jwriter.Writer, in SingleAnnouncement) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"success\":"
+		out.RawString(prefix[1:])
+		out.Bool(bool(in.Success))
+	}
+	{
+		const prefix string = ",\"error_code\":"
+		out.RawString(prefix)
+		out.Int(int(in.ErrorCode))
+	}
+	{
+		const prefix string = ",\"error_message\":"
+		out.RawString(prefix)
+		out.String(string(in.ErrorMessage))
+	}
+	{
+		const prefix string = ",\"data\":"
+		out.RawString(prefix)
+		(in.Data).MarshalEasyJSON(out)
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v SingleAnnouncement) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v SingleAnnouncement) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *SingleAnnouncement) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *SingleAnnouncement) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity(l, v)
+}
+func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(in *jlexer.Lexer, out *Notice) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "id":
+			out.ID = int(in.Int())
+		case "category":
+			out.Category = string(in.String())
+		case "title":
+			out.Title = string(in.String())
+		case "listed_at":
+			if data := in.Raw(); in.Ok() {
+				in.AddError((out.ListedAt).UnmarshalJSON(data))
+			}
+		case "first_listed_at":
+			if data := in.Raw(); in.Ok() {
+				in.AddError((out.FirstListedAt).UnmarshalJSON(data))
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(out *jwriter.Writer, in Notice) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"id\":"
+		out.RawString(prefix[1:])
+		out.Int(int(in.ID))
+	}
+	{
+		const prefix string = ",\"category\":"
+		out.RawString(prefix)
+		out.String(string(in.Category))
+	}
+	{
+		const prefix string = ",\"title\":"
+		out.RawString(prefix)
+		out.String(string(in.Title))
+	}
+	{
+		const prefix string = ",\"listed_at\":"
+		out.RawString(prefix)
+		out.Raw((in.ListedAt).MarshalJSON())
+	}
+	{
+		const prefix string = ",\"first_listed_at\":"
+		out.RawString(prefix)
+		out.Raw((in.FirstListedAt).MarshalJSON())
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v Notice) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v Notice) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *Notice) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *Notice) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(l, v)
+}
+func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity2(in *jlexer.Lexer, out *Announcements) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "success":
+			out.Success = bool(in.Bool())
+		case "error_code":
+			out.ErrorCode = int(in.Int())
+		case "error_message":
+			out.ErrorMessage = string(in.String())
 		case "data":
 			easyjsonD1ca1c96Decode(in, &out.Data)
 		default:
@@ -135,7 +239,7 @@ func easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiP
 		in.Consumed()
 	}
 }
-func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(out *jwriter.Writer, in Announcements) {
+func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity2(out *jwriter.Writer, in Announcements) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -143,6 +247,16 @@ func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiP
 		const prefix string = ",\"success\":"
 		out.RawString(prefix[1:])
 		out.Bool(bool(in.Success))
+	}
+	{
+		const prefix string = ",\"error_code\":"
+		out.RawString(prefix)
+		out.Int(int(in.ErrorCode))
+	}
+	{
+		const prefix string = ",\"error_message\":"
+		out.RawString(prefix)
+		out.String(string(in.ErrorMessage))
 	}
 	{
 		const prefix string = ",\"data\":"
@@ -155,39 +269,30 @@ func easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiP
 // MarshalJSON supports json.Marshaler interface
 func (v Announcements) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(&w, v)
+	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity2(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Announcements) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(w, v)
+	easyjsonD1ca1c96EncodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity2(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Announcements) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(&r, v)
+	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity2(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Announcements) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity1(l, v)
+	easyjsonD1ca1c96DecodeGithubComShadowWeb3DevelopmentStudioListingsUpbitApiPollInternalEntity2(l, v)
 }
 func easyjsonD1ca1c96Decode(in *jlexer.Lexer, out *struct {
-	TotalPages int `json:"total_pages"`
-	TotalCount int `json:"total_count"`
-	Notices    []struct {
-		ListedAt        time.Time `json:"listed_at"`
-		FirstListedAt   time.Time `json:"first_listed_at"`
-		ID              int       `json:"id"`
-		Title           string    `json:"title"`
-		Category        string    `json:"category"`
-		NeedNewBadge    bool      `json:"need_new_badge"`
-		NeedUpdateBadge bool      `json:"need_update_badge"`
-	} `json:"notices"`
-	FixedNotices []interface{} `json:"fixed_notices"`
+	TotalPages int      `json:"total_pages"`
+	TotalCount int      `json:"total_count"`
+	Notices    []Notice `json:"notices"`
 }) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -219,70 +324,17 @@ func easyjsonD1ca1c96Decode(in *jlexer.Lexer, out *struct {
 				in.Delim('[')
 				if out.Notices == nil {
 					if !in.IsDelim(']') {
-						out.Notices = make([]struct {
-							ListedAt        time.Time `json:"listed_at"`
-							FirstListedAt   time.Time `json:"first_listed_at"`
-							ID              int       `json:"id"`
-							Title           string    `json:"title"`
-							Category        string    `json:"category"`
-							NeedNewBadge    bool      `json:"need_new_badge"`
-							NeedUpdateBadge bool      `json:"need_update_badge"`
-						}, 0, 0)
+						out.Notices = make([]Notice, 0, 0)
 					} else {
-						out.Notices = []struct {
-							ListedAt        time.Time `json:"listed_at"`
-							FirstListedAt   time.Time `json:"first_listed_at"`
-							ID              int       `json:"id"`
-							Title           string    `json:"title"`
-							Category        string    `json:"category"`
-							NeedNewBadge    bool      `json:"need_new_badge"`
-							NeedUpdateBadge bool      `json:"need_update_badge"`
-						}{}
+						out.Notices = []Notice{}
 					}
 				} else {
 					out.Notices = (out.Notices)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v1 struct {
-						ListedAt        time.Time `json:"listed_at"`
-						FirstListedAt   time.Time `json:"first_listed_at"`
-						ID              int       `json:"id"`
-						Title           string    `json:"title"`
-						Category        string    `json:"category"`
-						NeedNewBadge    bool      `json:"need_new_badge"`
-						NeedUpdateBadge bool      `json:"need_update_badge"`
-					}
-					easyjsonD1ca1c96Decode1(in, &v1)
+					var v1 Notice
+					(v1).UnmarshalEasyJSON(in)
 					out.Notices = append(out.Notices, v1)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "fixed_notices":
-			if in.IsNull() {
-				in.Skip()
-				out.FixedNotices = nil
-			} else {
-				in.Delim('[')
-				if out.FixedNotices == nil {
-					if !in.IsDelim(']') {
-						out.FixedNotices = make([]interface{}, 0, 4)
-					} else {
-						out.FixedNotices = []interface{}{}
-					}
-				} else {
-					out.FixedNotices = (out.FixedNotices)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v2 interface{}
-					if m, ok := v2.(easyjson.Unmarshaler); ok {
-						m.UnmarshalEasyJSON(in)
-					} else if m, ok := v2.(json.Unmarshaler); ok {
-						_ = m.UnmarshalJSON(in.Raw())
-					} else {
-						v2 = in.Interface()
-					}
-					out.FixedNotices = append(out.FixedNotices, v2)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -298,18 +350,9 @@ func easyjsonD1ca1c96Decode(in *jlexer.Lexer, out *struct {
 	}
 }
 func easyjsonD1ca1c96Encode(out *jwriter.Writer, in struct {
-	TotalPages int `json:"total_pages"`
-	TotalCount int `json:"total_count"`
-	Notices    []struct {
-		ListedAt        time.Time `json:"listed_at"`
-		FirstListedAt   time.Time `json:"first_listed_at"`
-		ID              int       `json:"id"`
-		Title           string    `json:"title"`
-		Category        string    `json:"category"`
-		NeedNewBadge    bool      `json:"need_new_badge"`
-		NeedUpdateBadge bool      `json:"need_update_badge"`
-	} `json:"notices"`
-	FixedNotices []interface{} `json:"fixed_notices"`
+	TotalPages int      `json:"total_pages"`
+	TotalCount int      `json:"total_count"`
+	Notices    []Notice `json:"notices"`
 }) {
 	out.RawByte('{')
 	first := true
@@ -331,140 +374,14 @@ func easyjsonD1ca1c96Encode(out *jwriter.Writer, in struct {
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v3, v4 := range in.Notices {
-				if v3 > 0 {
+			for v2, v3 := range in.Notices {
+				if v2 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonD1ca1c96Encode1(out, v4)
+				(v3).MarshalEasyJSON(out)
 			}
 			out.RawByte(']')
 		}
-	}
-	{
-		const prefix string = ",\"fixed_notices\":"
-		out.RawString(prefix)
-		if in.FixedNotices == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v5, v6 := range in.FixedNotices {
-				if v5 > 0 {
-					out.RawByte(',')
-				}
-				if m, ok := v6.(easyjson.Marshaler); ok {
-					m.MarshalEasyJSON(out)
-				} else if m, ok := v6.(json.Marshaler); ok {
-					out.Raw(m.MarshalJSON())
-				} else {
-					out.Raw(json.Marshal(v6))
-				}
-			}
-			out.RawByte(']')
-		}
-	}
-	out.RawByte('}')
-}
-func easyjsonD1ca1c96Decode1(in *jlexer.Lexer, out *struct {
-	ListedAt        time.Time `json:"listed_at"`
-	FirstListedAt   time.Time `json:"first_listed_at"`
-	ID              int       `json:"id"`
-	Title           string    `json:"title"`
-	Category        string    `json:"category"`
-	NeedNewBadge    bool      `json:"need_new_badge"`
-	NeedUpdateBadge bool      `json:"need_update_badge"`
-}) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeFieldName(false)
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "listed_at":
-			if data := in.Raw(); in.Ok() {
-				in.AddError((out.ListedAt).UnmarshalJSON(data))
-			}
-		case "first_listed_at":
-			if data := in.Raw(); in.Ok() {
-				in.AddError((out.FirstListedAt).UnmarshalJSON(data))
-			}
-		case "id":
-			out.ID = int(in.Int())
-		case "title":
-			out.Title = string(in.String())
-		case "category":
-			out.Category = string(in.String())
-		case "need_new_badge":
-			out.NeedNewBadge = bool(in.Bool())
-		case "need_update_badge":
-			out.NeedUpdateBadge = bool(in.Bool())
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonD1ca1c96Encode1(out *jwriter.Writer, in struct {
-	ListedAt        time.Time `json:"listed_at"`
-	FirstListedAt   time.Time `json:"first_listed_at"`
-	ID              int       `json:"id"`
-	Title           string    `json:"title"`
-	Category        string    `json:"category"`
-	NeedNewBadge    bool      `json:"need_new_badge"`
-	NeedUpdateBadge bool      `json:"need_update_badge"`
-}) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	{
-		const prefix string = ",\"listed_at\":"
-		out.RawString(prefix[1:])
-		out.Raw((in.ListedAt).MarshalJSON())
-	}
-	{
-		const prefix string = ",\"first_listed_at\":"
-		out.RawString(prefix)
-		out.Raw((in.FirstListedAt).MarshalJSON())
-	}
-	{
-		const prefix string = ",\"id\":"
-		out.RawString(prefix)
-		out.Int(int(in.ID))
-	}
-	{
-		const prefix string = ",\"title\":"
-		out.RawString(prefix)
-		out.String(string(in.Title))
-	}
-	{
-		const prefix string = ",\"category\":"
-		out.RawString(prefix)
-		out.String(string(in.Category))
-	}
-	{
-		const prefix string = ",\"need_new_badge\":"
-		out.RawString(prefix)
-		out.Bool(bool(in.NeedNewBadge))
-	}
-	{
-		const prefix string = ",\"need_update_badge\":"
-		out.RawString(prefix)
-		out.Bool(bool(in.NeedUpdateBadge))
 	}
 	out.RawByte('}')
 }

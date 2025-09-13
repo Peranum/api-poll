@@ -1,4 +1,4 @@
-package entity
+package httptools
 
 import "fmt"
 

@@ -4,13 +4,21 @@ FROM golang:1.24.3 AS builder
 # Set the working directory inside the container
 WORKDIR /app
 
+# Copy go mod and sum files first for better caching
+COPY go.mod go.sum ./
+
+# Download dependencies with cache mount - this persists across builds
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+
 # Copy the source code
 COPY . .
 
-RUN go mod tidy
+# Build the Go app with cache mounts for both module and build cache
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 GOOS=linux go build -o /app/bin/upbit-api-poll main.go
 
-# Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/bin/upbit-api-poll main.go
 # Set execute permissions in the builder stage
 RUN chmod 755 /app/bin/upbit-api-poll
 
@@ -30,4 +38,4 @@ COPY configs /srv/configs
 EXPOSE 8080
 
 # Command to run the binary
-CMD ["/srv/upbit-api-poll", "--config", "/srv/configs/remote.yaml"]
+CMD ["/srv/upbit-api-poll", "--config", "/srv/configs/config.yaml"]

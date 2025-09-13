@@ -8,17 +8,19 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/pkg/httptools"
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	APIPoller   APIPoller   `mapstructure:"api_poller"   validate:"required"`
-	UpbitClient UpbitClient `mapstructure:"upbit_client" validate:"required"`
-	Telegram    Telegram    `mapstructure:"telegram"     validate:"required"`
-	Logger      Logger      `mapstructure:"logger"       validate:"required"`
-	GRPC        GRPC        `mapstructure:"grpc"         validate:"required"`
+	UpbitAPI            UpbitAPI            `mapstructure:"upbit_api"             validate:"required"`
+	WebsocketSucker     WebsocketSucker     `mapstructure:"websocket_sucker"      validate:"required"`
+	ProxyRotatingPoller ProxyRotatingPoller `mapstructure:"proxy_rotating_poller" validate:"required"`
+	Telegram            Telegram            `mapstructure:"telegram"              validate:"required"`
+	Logger              Logger              `mapstructure:"logger"                validate:"required"`
+	GRPC                GRPC                `mapstructure:"grpc"                  validate:"required"`
 }
 
 // Validate checks if the configuration is valid
@@ -30,10 +32,12 @@ func (c Config) Validate() error {
 
 func (c Config) String() string {
 	c.Telegram.AuthorizationToken = "[REDACTED]"
+	c.ProxyRotatingPoller.Proxies = []httptools.Proxy{}
 
-	b, _ := json.MarshalIndent(c, "", "  ")
 
-	return string(b)
+	b, _ := json.Marshal(c)
+
+	return strings.ReplaceAll(string(b), `"`, `'`)
 }
 
 func MustParseConfig(configPath string) Config {

@@ -7,21 +7,20 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/client/grpc"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/config"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/core"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/di"
 	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/di/setup"
-	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/pkg/channel"
+	"github.com/Shadow-Web3-development-studio/listings/upbit-api-poll/internal/entity"
 )
 
 func main() {
-	configPath := flag.String("config", "configs/local.yaml", "path to config file")
+	configPath := flag.String("config", "configs/config.yaml", "path to config file")
 	flag.Parse()
 
 	cfg := config.MustParseConfig(*configPath)
 	deps := setup.MustContainer(cfg)
-	deps.Logger.Info("Starting upbit api poller", "config", cfg)
+	deps.Logger.Info("Starting upbit api poller", "config", cfg.String())
 
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 	defer cancel()
@@ -30,40 +29,95 @@ func main() {
 }
 
 func run(ctx context.Context, deps di.Container) {
-	poller, err := core.NewAPIPoller(deps)
-	if err != nil {
-		deps.Logger.Error("failed to create api poller", "error", err)
-		return
-	}
+	newsChan := streamNews(ctx, deps)
 
-	gateClient, err := grpc.NewGateClient(deps.Config.GRPC)
-	if err != nil {
-		deps.Logger.Error("failed to create gate gRPC client", "error", err)
-		return
-	}
-	defer gateClient.Close()
-
-	newsChan := poller.StreamNews(ctx)
-	newsBroadcast := channel.NewBroadcastAdapter(newsChan)
-	defer newsBroadcast.Close()
-
-	monitorChan, err := newsBroadcast.Follow()
-	if err != nil {
-		deps.Logger.Error("failed to create news broadcast", "error", err)
-		return
-	}
-	defer newsBroadcast.Unfollow(monitorChan)
-
-	monitor := core.NewNewsMonitor(gateClient, monitorChan, deps.Metrics)
+	monitor := core.NewNewsMonitor(newsChan, deps.Metrics)
 	go monitor.StartMonitoring(ctx)
 
 	go func() {
-
 		deps.Logger.Info("Starting Prometheus metrics server on :8080")
+
 		if err := deps.Metrics.StartMetricsServer("8080"); err != nil {
 			deps.Logger.Error("Failed to start metrics server", "error", err)
 		}
 	}()
 
 	<-ctx.Done()
+}
+
+func streamNews(ctx context.Context, deps di.Container) <-chan entity.NewsTitle {
+	// announcementsFetcher, err := core.NewAnnouncementsFetcher(deps)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// announcementsNews, err := announcementsFetcher.StreamNewNewsTitles(ctx)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	noticeByIDFetcher, err := core.NewNoticeByIDFetcher(deps)
+	if err != nil {
+		panic(err)
+	}
+
+	noticeNews, err := noticeByIDFetcher.StreamNewNoticeTitles(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	newsChan := make(chan entity.NewsTitle, 1024)
+
+	go func() {
+		var lastNews entity.NewsTitle
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+
+			case news, ok := <-noticeNews:
+				if !ok {
+					continue
+				}
+
+				if news == lastNews {
+					continue
+				}
+
+				deps.Logger.Info(
+					"new notice title",
+					"title",
+					news,
+					"from",
+					"notice by id fetcher",
+				)
+
+				lastNews = news
+				newsChan <- news
+
+				// case news, ok := <-announcementsNews:
+				// 	if !ok {
+				// 		continue
+				// 	}
+
+				// 	if news == lastNews {
+				// 		continue
+				// 	}
+
+				// 	deps.Logger.Info(
+				// 		"new announcement title",
+				// 		"title",
+				// 		news,
+				// 		"from",
+				// 		"announcements fetcher",
+				// 	)
+
+				// 	lastNews = news
+				// 	newsChan <- news
+			}
+		}
+	}()
+
+	return newsChan
 }

@@ -8,51 +8,29 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-type MetricsService interface {
-	// Counters
-	IncrementCounter(name string, labels ...string)
-
-	// Gauges
-	SetGauge(name string, value float64, labels ...string)
-	IncrementGauge(name string, labels ...string)
-	DecrementGauge(name string, labels ...string)
-
-	// Histograms
-	ObserveHistogram(name string, value float64, labels ...string)
-	StartTimer(name string, labels ...string) Timer
-
-	// Server
-	StartMetricsServer(port string) error
-	GetHandler() http.Handler
-}
-
-type Timer interface {
-	ObserveDuration()
-}
-
-type prometheusService struct {
+type PrometheusService struct {
 	counters   map[string]*prometheus.CounterVec
 	gauges     map[string]*prometheus.GaugeVec
 	histograms map[string]*prometheus.HistogramVec
 }
 
-type prometheusTimer struct {
+type PrometheusTimer struct {
 	timer prometheus.Timer
 }
 
-func (t *prometheusTimer) ObserveDuration() {
+func (t *PrometheusTimer) ObserveDuration() {
 	t.timer.ObserveDuration()
 }
 
-func NewPrometheusService() MetricsService {
-	return &prometheusService{
+func NewPrometheusService() *PrometheusService {
+	return &PrometheusService{
 		counters:   make(map[string]*prometheus.CounterVec),
 		gauges:     make(map[string]*prometheus.GaugeVec),
 		histograms: make(map[string]*prometheus.HistogramVec),
 	}
 }
 
-func (p *prometheusService) IncrementCounter(name string, labels ...string) {
+func (p *PrometheusService) IncrementCounter(name string, labels ...string) {
 	counter := p.getOrCreateCounter(name, getLabelNames(labels))
 	if len(labels) == 0 {
 		counter.WithLabelValues().Inc()
@@ -61,7 +39,7 @@ func (p *prometheusService) IncrementCounter(name string, labels ...string) {
 	}
 }
 
-func (p *prometheusService) SetGauge(name string, value float64, labels ...string) {
+func (p *PrometheusService) SetGauge(name string, value float64, labels ...string) {
 	gauge := p.getOrCreateGauge(name, getLabelNames(labels))
 	if len(labels) == 0 {
 		gauge.WithLabelValues().Set(value)
@@ -70,7 +48,7 @@ func (p *prometheusService) SetGauge(name string, value float64, labels ...strin
 	}
 }
 
-func (p *prometheusService) IncrementGauge(name string, labels ...string) {
+func (p *PrometheusService) IncrementGauge(name string, labels ...string) {
 	gauge := p.getOrCreateGauge(name, getLabelNames(labels))
 	if len(labels) == 0 {
 		gauge.WithLabelValues().Inc()
@@ -79,7 +57,7 @@ func (p *prometheusService) IncrementGauge(name string, labels ...string) {
 	}
 }
 
-func (p *prometheusService) DecrementGauge(name string, labels ...string) {
+func (p *PrometheusService) DecrementGauge(name string, labels ...string) {
 	gauge := p.getOrCreateGauge(name, getLabelNames(labels))
 	if len(labels) == 0 {
 		gauge.WithLabelValues().Dec()
@@ -88,7 +66,7 @@ func (p *prometheusService) DecrementGauge(name string, labels ...string) {
 	}
 }
 
-func (p *prometheusService) ObserveHistogram(name string, value float64, labels ...string) {
+func (p *PrometheusService) ObserveHistogram(name string, value float64, labels ...string) {
 	histogram := p.getOrCreateHistogram(name, getLabelNames(labels))
 	if len(labels) == 0 {
 		histogram.WithLabelValues().Observe(value)
@@ -97,7 +75,7 @@ func (p *prometheusService) ObserveHistogram(name string, value float64, labels 
 	}
 }
 
-func (p *prometheusService) StartTimer(name string, labels ...string) Timer {
+func (p *PrometheusService) StartTimer(name string, labels ...string) *PrometheusTimer {
 	histogram := p.getOrCreateHistogram(name, getLabelNames(labels))
 	var timer prometheus.Timer
 	if len(labels) == 0 {
@@ -105,10 +83,10 @@ func (p *prometheusService) StartTimer(name string, labels ...string) Timer {
 	} else {
 		timer = *prometheus.NewTimer(histogram.WithLabelValues(getLabelValues(labels)...))
 	}
-	return &prometheusTimer{timer: timer}
+	return &PrometheusTimer{timer: timer}
 }
 
-func (p *prometheusService) getOrCreateCounter(
+func (p *PrometheusService) getOrCreateCounter(
 	name string,
 	labelNames []string,
 ) *prometheus.CounterVec {
@@ -127,7 +105,7 @@ func (p *prometheusService) getOrCreateCounter(
 	return counter
 }
 
-func (p *prometheusService) getOrCreateGauge(
+func (p *PrometheusService) getOrCreateGauge(
 	name string,
 	labelNames []string,
 ) *prometheus.GaugeVec {
@@ -146,7 +124,7 @@ func (p *prometheusService) getOrCreateGauge(
 	return gauge
 }
 
-func (p *prometheusService) getOrCreateHistogram(
+func (p *PrometheusService) getOrCreateHistogram(
 	name string,
 	labelNames []string,
 ) *prometheus.HistogramVec {
@@ -166,12 +144,12 @@ func (p *prometheusService) getOrCreateHistogram(
 	return histogram
 }
 
-func (p *prometheusService) StartMetricsServer(port string) error {
+func (p *PrometheusService) StartMetricsServer(port string) error {
 	http.Handle("/metrics", promhttp.Handler())
 	return http.ListenAndServe(":"+port, nil)
 }
 
-func (p *prometheusService) GetHandler() http.Handler {
+func (p *PrometheusService) GetHandler() http.Handler {
 	return promhttp.Handler()
 }
 

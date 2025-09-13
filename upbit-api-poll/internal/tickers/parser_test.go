@@ -109,7 +109,6 @@ func equalSlices(a, b []string) bool {
 	return true
 }
 
-
 func TestExtractKoreanTickers(t *testing.T) {
 	testCases := []struct {
 		name     string

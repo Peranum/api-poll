@@ -13,7 +13,12 @@ import (
 const MetricGateOpenOrderDuration = "gate_open_order_duration_ms"
 
 // OpenFuturesOrder открывает фьючерсный ордер на Gate.io
-func OpenFuturesOrder(metrics service.MetricsService, token string, usdtAmount float64, leverage string) (map[string]interface{}, error) {
+func OpenFuturesOrder(
+	metrics *service.PrometheusService,
+	token string,
+	usdtAmount float64,
+	leverage string,
+) (map[string]interface{}, error) {
 	// Используем StartTimer/ObserveDuration для метрики
 	timer := metrics.StartTimer(MetricGateOpenOrderDuration)
 	defer timer.ObserveDuration()
@@ -39,7 +44,11 @@ func OpenFuturesOrder(metrics service.MetricsService, token string, usdtAmount f
 	if err != nil {
 		return nil, fmt.Errorf("get contract info: %w", err)
 	}
-	tickers, _, err := client.FuturesApi.ListFuturesTickers(ctx, "usdt", &gateapi.ListFuturesTickersOpts{Contract: optional.NewString(contract)})
+	tickers, _, err := client.FuturesApi.ListFuturesTickers(
+		ctx,
+		"usdt",
+		&gateapi.ListFuturesTickersOpts{Contract: optional.NewString(contract)},
+	)
 	if err != nil || len(tickers) == 0 {
 		return nil, fmt.Errorf("get ticker: %w", err)
 	}

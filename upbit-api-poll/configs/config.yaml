@@ -1,0 +1,58 @@
+upbit_api:
+  announcements_endpoint: "https://api-manager.upbit.com/api/v1/announcements?os=web&page=1&per_page=%d&category=all"
+  announcements_single_ip_max_rps: 0.2
+  announcement_by_id_endpoint: "https://api-manager.upbit.com/api/v1/announcements/%d"
+  announcement_by_id_single_ip_max_rps: 0.17
+  notice_by_id_endpoint: "https://upbit.com/service_center/notice?id=%d"
+  notice_by_id_single_ip_max_rps: 0.4
+
+telegram:
+  bot_id: "YOUR_BOT_ID"
+  authorization_token: "YOUR_AUTHORIZATION_TOKEN"
+  group_id: -1002513031405
+
+logger:
+  level: "info"
+  format: "json"
+  add_source: false
+
+grpc:
+  address: "localhost:49999"
+  dial_timeout: "5s"
+  call_timeout: "10s"
+
+websocket_sucker:
+  url: "wss://newlistings.pro/v1/new-listings"
+  api_key: "YOUR_API_KEY"
+
+proxy_rotating_poller:
+  target_rps: 5
+  retries:
+    max_retries: 3
+    retry_delay: "100ms"
+    retry_delay_multiplier: 1.1
+  work_schedule:
+    time_zone: "Asia/Seoul"
+    schedule:
+      monday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      tuesday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      wednesday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      thursday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+      friday:
+        start_time: "08:00"
+        end_time: "23:59"
+        preparation_time: "5m"
+  proxies:
+   
